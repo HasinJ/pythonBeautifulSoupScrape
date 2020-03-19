@@ -1,3 +1,4 @@
 
-f = open("test.xls","r")
-print('hello')
+f = open("Master Template.xls","r")
+content=f.read()
+print(content)
