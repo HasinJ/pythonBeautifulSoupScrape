@@ -1,8 +1,11 @@
 pythonWebscrapeRadiant
 
 Files:
+
 Report.xls - xls file with data to parse
+
 courseProj.py - allsides.com example
+
 output - html example of xls file and webpage
 
 
