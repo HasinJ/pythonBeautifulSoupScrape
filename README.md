@@ -1,5 +1,9 @@
 pythonWebscrapeRadiant
 
+BeautifulSoup Doc:
+
+https://www.crummy.com/software/BeautifulSoup/bs4/doc/#
+
 Files:
 
 Report.xls - xls file with data to parse
