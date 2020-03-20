@@ -9,8 +9,9 @@ def save_html(html, path):
 import requests
 from bs4 import BeautifulSoup
 
-f = open('Report.xls','r')
+f = open('Report.xls','rb')
 content = f.read()
 soup = BeautifulSoup(content,'html.parser')
-print(soup)
+rows = soup.select_one("table tr")
+print(rows.select_one('td').text.strip())
 f.close()
