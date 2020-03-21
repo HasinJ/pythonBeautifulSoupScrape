@@ -8,7 +8,7 @@ def save_html(html, path):
 
 def sliceString(string,beginStr,endStr):
     startIndex = string.find(beginStr)
-    stopIndex = string.find(endStr)+len(endStr) #includes the endStr
+    stopIndex = string.find(endStr)
     output = string[startIndex:stopIndex]
     return output
 
@@ -20,7 +20,7 @@ content = f.read()
 soup = BeautifulSoup(content,'html.parser')
 
 mainHeaderText = soup.find(id='MainReportDiv').text.strip()
-businessUnit = sliceString(mainHeaderText,'Business Unit','VA')
+businessUnit = sliceString(mainHeaderText,'Business Unit','-')
 print(businessUnit)
 
 #should grab last id of the table
