@@ -7,8 +7,8 @@ def save_html(html, path):
         f.write(html)
 
 def sliceString(string,beginStr,endStr):
-    startIndex = string.find(beginStr)
-    stopIndex = string.find(endStr)
+    startIndex = string.find(beginStr)+len(beginStr) #doesnt include beginStr
+    stopIndex = string.find(endStr,startIndex) #to counteract against space
     output = string[startIndex:stopIndex]
     return output
 
@@ -18,13 +18,16 @@ from bs4 import BeautifulSoup
 f = open('Report.xls','rb')
 content = f.read()
 soup = BeautifulSoup(content,'html.parser')
+mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Report Time')[0]
 
-mainHeaderText = soup.find(id='MainReportDiv').text.strip()
+#grabs business unit and then PC#
 businessUnit = sliceString(mainHeaderText,'Business Unit','-')
-print(businessUnit)
+PCnumber = sliceString(businessUnit,' ',' ')
+print(PCnumber)
 
 #should grab last id of the table
 lastID = soup.tfoot.find('tr')['id']
+
 
 #find first header row
 rows = soup.find(class_="RowStyleHead")
