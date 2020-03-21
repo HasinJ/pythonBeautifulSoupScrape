@@ -20,21 +20,33 @@ content = f.read()
 soup = BeautifulSoup(content,'html.parser')
 mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Report Time')[0]
 
+data = []
+template = dict()
+
 #grabs business unit and then PC#
 businessUnit = sliceString(mainHeaderText,'Business Unit','-')
 PCnumber = sliceString(businessUnit,' ',' ')
 print(PCnumber)
 
-#should grab last id of the table
+#should grab count of the table, including total ROWS
 lastID = soup.tfoot.find('tr')['id']
 
+#should grab count of the table without total rows
+dataCount = soup.select('.RowStyleData')
+dataCount.append(soup.select('.RowStyleDataEven'))
+dataCount = len(dataCount)
 
 #find first header row
 rows = soup.find(class_="RowStyleHead")
 elements = rows.select('.CellStyle')
-for x in range(len(elements)):
-    print(elements[x].text.strip())
+for index in range(len(elements)):
+    template[elements[index].text.strip()] = 0
 
+dataCell = template
+data.append(dataCell)
 
+print(dataCount)
+print(dataCell)
+print(data[0]['Item'])
 
 f.close()
