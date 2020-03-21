@@ -6,8 +6,11 @@ def save_html(html, path):
     with open(path,'wb') as f:
         f.write(html)
 
-
-
+def sliceString(string,beginStr,endStr):
+    startIndex = string.find(beginStr)
+    stopIndex = string.find(endStr)+len(endStr) #includes the endStr
+    output = string[startIndex:stopIndex]
+    return output
 
 import requests
 from bs4 import BeautifulSoup
@@ -16,10 +19,8 @@ f = open('Report.xls','rb')
 content = f.read()
 soup = BeautifulSoup(content,'html.parser')
 
-mainHeaderText = soup.div.text.strip()
-beginBusiness = mainHeaderText.find("Business Unit")
-endBusiness = mainHeaderText.find("VA")+2
-businessUnit = mainHeaderText[beginBusiness:endBusiness]
+mainHeaderText = soup.find(id='MainReportDiv').text.strip()
+businessUnit = sliceString(mainHeaderText,'Business Unit','VA')
 print(businessUnit)
 
 #should grab last id of the table
