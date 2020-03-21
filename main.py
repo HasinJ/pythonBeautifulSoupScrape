@@ -6,6 +6,9 @@ def save_html(html, path):
     with open(path,'wb') as f:
         f.write(html)
 
+
+
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -13,8 +16,11 @@ f = open('Report.xls','rb')
 content = f.read()
 soup = BeautifulSoup(content,'html.parser')
 
-mainHeader = soup.div.text.strip().split(',')[0]
-print(mainHeader)
+mainHeaderText = soup.div.text.strip()
+beginBusiness = mainHeaderText.find("Business Unit")
+endBusiness = mainHeaderText.find("VA")+2
+businessUnit = mainHeaderText[beginBusiness:endBusiness]
+print(businessUnit)
 
 #should grab last id of the table
 lastID = soup.tfoot.find('tr')['id']
