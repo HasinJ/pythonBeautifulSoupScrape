@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 
 dir = fr'C:\Users\Hasin Choudhury\Desktop\pythonBeautifulSoupScrape'
 
-f = open(dir + r'\Report.xls','rb')
+f = open(dir + r'\Report.xls','rb') #read-bytes, write-bytes needs chmoding
 content = f.read()
 soup = BeautifulSoup(content,'html.parser')
 mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Report Time')[0]
