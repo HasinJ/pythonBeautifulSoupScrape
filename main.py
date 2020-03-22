@@ -14,7 +14,9 @@ import os.path
 from os import path
 from bs4 import BeautifulSoup
 
-f = open('Report.xls','rb')
+dir = r'C:\Users\Hasin Choudhury\Desktop\pythonBeautifulSoupScrape'
+
+f = open(dir + r'\Report.xls','rb')
 content = f.read()
 soup = BeautifulSoup(content,'html.parser')
 mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Report Time')[0]
@@ -52,16 +54,16 @@ for count in range(len(dataRows)):
     data.append(dataCell)
 
 #checks for testOutput.json existence
-if path.exists('testOutput.json')==False:
-    with open('testOutput.json','w') as f:
+if path.exists(dir + r'\OutputTest.json')==False:
+    with open(dir + r'\OutputTest.json','w') as f:
         json.dump(data,f)
 
 #checks for dataframe export existence
-if path.exists('export_dataframe.csv'):
-    df = pd.read_json(open('testOutput.json','r'))
+if path.exists(dir + r'\dataframe.csv')==False:
+    df = pd.read_json(open(dir + r'\OutputTest.json','r'))
     #df.set_index('PC Number', inplace=True) takes its own row
     #print(df)
-    df.to_csv(r'.\export_dataframe.csv', index=False,header=True)
+    df.to_csv(dir + r'\dataframe.csv', index=False, header=True)
 
 
 #These are some checks to have (there are a lot to check, but these are the crucial ones):
