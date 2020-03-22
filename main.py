@@ -10,6 +10,8 @@ def sliceString(string,beginStr,endStr='nothing'):
 import requests
 import json
 import pandas as pd
+import os.path
+from os import path
 from bs4 import BeautifulSoup
 
 f = open('Report.xls','rb')
@@ -49,13 +51,18 @@ for count in range(len(dataRows)):
             dataCell[columns[index].text.strip()] = dataRows[count].select('.CellStyle')[index].text.strip()
     data.append(dataCell)
 
-with open('testOutput.json','w') as f:
-    json.dump(data,f)
+#checks for testOutput.json existence
+if path.exists('testOutput.json')==False:
+    with open('testOutput.json','w') as f:
+        json.dump(data,f)
 
-df = pd.read_json(open('testOutput.json','r'))
-#df.set_index('PC Number', inplace=True) takes its own row
-#print(df)
-df.to_csv(r'.\export_dataframe.csv', index=False,header=True)
+#checks for dataframe export existence
+if path.exists('export_dataframe.csv'):
+    df = pd.read_json(open('testOutput.json','r'))
+    #df.set_index('PC Number', inplace=True) takes its own row
+    #print(df)
+    df.to_csv(r'C:\Users\Hasin Choudhury\Desktop\pythonWebscrapeRadiant\export_dataframe.csv', index=False,header=True)
+
 
 #These are some checks to have (there are a lot to check, but these are the crucial ones):
 
