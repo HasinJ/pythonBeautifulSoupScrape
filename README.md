@@ -12,6 +12,8 @@ courseProj.py - allsides.com example
 
 output - html example of xls file and webpage
 
+{date}Output.json - outputs the data list
+
 
 HTML analysis:
 - differentiated with CSS
