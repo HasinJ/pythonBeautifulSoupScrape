@@ -23,7 +23,6 @@ soup = BeautifulSoup(content,'html.parser')
 mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Report Time')[0]
 
 data = []
-template = dict()
 
 #grabs first table since there are two tables and CSS
 table = soup.find(class_='TableStyle')
@@ -42,22 +41,20 @@ print(date)
 lastID = table.tfoot.find('tr')['id']
 
 #grabs count of the table without total rows
-dataCount = table.findAll(True, {'class':['RowStyleData', 'RowStyleDataEven']})
+dataRows = table.findAll(True, {'class':['RowStyleData', 'RowStyleDataEven']})
 
+#find (first) header row
+rowHead = table.find(class_="RowStyleHead")
+columns = rowHead.select('.CellStyle')
 
-
-#find first header row/column names
-rows = table.find(class_="RowStyleHead")
-elements = rows.select('.CellStyle')
-
-
-for count in range(len(dataCount)):
+#main data
+for count in range(len(dataRows)):
     dataCell = dict()
-    for index in range(len(elements)):
+    for index in range(len(columns)):
         try:
-            dataCell[elements[index].text.strip()] = dataCount[count].select('.CellStyle')[index]['dval']
+            dataCell[columns[index].text.strip()] = dataRows[count].select('.CellStyle')[index]['dval']
         except:
-            dataCell[elements[index].text.strip()] = dataCount[count].select('.CellStyle')[index].text.strip()
+            dataCell[columns[index].text.strip()] = dataRows[count].select('.CellStyle')[index].text.strip()
     data.append(dataCell)
 
 #These are some checks to have (there are a lot to check, but these are the crucial ones):
@@ -66,11 +63,11 @@ for count in range(len(dataCount)):
 #print(dataCell)
 
 #these should match:
-#print(len(dataCount))
+#print(len(dataRows))
 #print(len(data))
 #end
 
 #proper sibling navigation:
-#print(dataCount[0].select('.CellStyle')[0].next_sibling.next_sibling['dval'])
+#dataRows[0].select('.CellStyle')[0].next_sibling.next_sibling['dval']
 
 f.close()
