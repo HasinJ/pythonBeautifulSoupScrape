@@ -1,10 +1,3 @@
-def open_html(path):
-    with open(path,'rb') as f:
-        return f.read
-
-def save_html(html, path):
-    with open(path,'wb') as f:
-        f.write(html)
 
 def sliceString(string,beginStr,endStr='nothing'):
     startIndex = string.find(beginStr)+len(beginStr) #doesnt include beginStr
@@ -15,6 +8,8 @@ def sliceString(string,beginStr,endStr='nothing'):
     return output
 
 import requests
+import json
+import pandas as pd
 from bs4 import BeautifulSoup
 
 f = open('Report.xls','rb')
@@ -54,6 +49,13 @@ for count in range(len(dataRows)):
             dataCell[columns[index].text.strip()] = dataRows[count].select('.CellStyle')[index].text.strip()
     data.append(dataCell)
 
+with open('testOutput.json','w') as f:
+    json.dump(data,f)
+
+df = pd.read_json(open('testOutput.json','r'))
+#df.set_index('PC Number', inplace=True) takes its own row
+#print(df)
+df.to_csv(r'.\export_dataframe.csv', index=False,header=True)
 
 #These are some checks to have (there are a lot to check, but these are the crucial ones):
 
