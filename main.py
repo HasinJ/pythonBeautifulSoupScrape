@@ -14,7 +14,7 @@ import os.path
 from os import path
 from bs4 import BeautifulSoup
 
-dir = r'C:\Users\Hasin Choudhury\Desktop\pythonBeautifulSoupScrape'
+dir = fr'C:\Users\Hasin Choudhury\Desktop\pythonBeautifulSoupScrape'
 
 f = open(dir + r'\Report.xls','rb')
 content = f.read()
@@ -52,19 +52,22 @@ for count in range(len(dataRows)):
         except: #if there is no value, then the data cell has to represent the item name
             dataCell[columns[index].text.strip()] = dataRows[count].select('.CellStyle')[index].text.strip()
     data.append(dataCell)
+f.close()
+
+#cleaning date string of slashes
+date = date.replace('/','.')
 
 #checks for testOutput.json existence
-if path.exists(dir + r'\OutputTest.json')==False:
-    with open(dir + r'\OutputTest.json','w') as f:
+if path.exists(dir + fr'\{date}Output.json')==False:
+    with open(dir + fr'\{date}Output.json','w') as f:
         json.dump(data,f)
 
 #checks for dataframe export existence
-if path.exists(dir + r'\dataframe.csv')==False:
-    df = pd.read_json(open(dir + r'\OutputTest.json','r'))
+if path.exists(dir + fr'\{date}dataframe.csv')==False:
+    df = pd.read_json(open(dir + fr'\{date}Output.json','r'))
     #df.set_index('PC Number', inplace=True) takes its own row
     #print(df)
-    df.to_csv(dir + r'\dataframe.csv', index=False, header=True)
-
+    df.to_csv(dir + fr'\{date}dataframe.csv', index=False, header=True)
 
 #These are some checks to have (there are a lot to check, but these are the crucial ones):
 
@@ -75,7 +78,7 @@ if path.exists(dir + r'\dataframe.csv')==False:
 #print(len(dataRows))
 #print(len(data))
 #end
-f.close()
+
 
 #proper sibling navigation:
 #dataRows[0].select('.CellStyle')[0].next_sibling.next_sibling['dval']
