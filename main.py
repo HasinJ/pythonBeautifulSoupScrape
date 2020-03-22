@@ -6,9 +6,11 @@ def save_html(html, path):
     with open(path,'wb') as f:
         f.write(html)
 
-def sliceString(string,beginStr,endStr):
+def sliceString(string,beginStr,endStr='nothing'):
     startIndex = string.find(beginStr)+len(beginStr) #doesnt include beginStr
-    stopIndex = string.find(endStr,startIndex) #to counteract against space
+    if endStr=='nothing':
+        return string[startIndex:]
+    stopIndex = string.find(endStr,startIndex) #so it doesn't take beginStr into consideration
     output = string[startIndex:stopIndex]
     return output
 
@@ -31,26 +33,31 @@ businessUnit = sliceString(mainHeaderText,'Business Unit','-')
 PCnumber = sliceString(businessUnit,' ',' ')
 print(PCnumber)
 
+#grabs date
+businessDate = sliceString(mainHeaderText,'Date','End')
+date = sliceString(businessDate,' ')
+print(date)
+
 #should grab count of the table, including total ROWS
 lastID = table.tfoot.find('tr')['id']
 
 #grabs count of the table without total rows
 dataCount = table.findAll(True, {'class':['RowStyleData', 'RowStyleDataEven']})
 
+
+
 #find first header row/column names
 rows = table.find(class_="RowStyleHead")
 elements = rows.select('.CellStyle')
 
-for index in range(len(elements)):
-    template[elements[index].text.strip()] = 'empty'
 
 for count in range(len(dataCount)):
     dataCell = dict()
     for index in range(len(elements)):
         try:
-            dataCell[elements[index].text.strip()]=dataCount[count].select('.CellStyle')[index]['dval']
+            dataCell[elements[index].text.strip()] = dataCount[count].select('.CellStyle')[index]['dval']
         except:
-            dataCell[elements[index].text.strip()]=dataCount[count].select('.CellStyle')[index].text.strip()
+            dataCell[elements[index].text.strip()] = dataCount[count].select('.CellStyle')[index].text.strip()
     data.append(dataCell)
 
 #These are some checks to have (there are a lot to check, but these are the crucial ones):
