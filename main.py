@@ -23,6 +23,9 @@ mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Report Time')
 data = []
 template = dict()
 
+#grabs first table since there are two tables and CSS
+table = soup.find(class_='TableStyle')
+
 #grabs business unit and then PC#
 businessUnit = sliceString(mainHeaderText,'Business Unit','-')
 PCnumber = sliceString(businessUnit,' ',' ')
@@ -31,22 +34,23 @@ print(PCnumber)
 #should grab count of the table, including total ROWS
 lastID = soup.tfoot.find('tr')['id']
 
-#should grab count of the table without total rows
-dataCount = soup.select('.RowStyleData')
-dataCount.append(soup.select('.RowStyleDataEven'))
-dataCount = len(dataCount)
+#grabs count of the table without total rows
+dataCount = table.findAll(True, {'class':['RowStyleData', 'RowStyleDataEven']})
 
 #find first header row
-rows = soup.find(class_="RowStyleHead")
+rows = table.find(class_="RowStyleHead")
 elements = rows.select('.CellStyle')
+
 for index in range(len(elements)):
-    template[elements[index].text.strip()] = 0
+    template[elements[index].text.strip()] = 'empty'
 
-dataCell = template
-data.append(dataCell)
+for count in range(len(dataCount)):
+    dataCell = template
+    data.append(dataCell)
 
-print(dataCount)
+print(len(dataCount))
 print(dataCell)
 print(data[0]['Item'])
+
 
 f.close()
