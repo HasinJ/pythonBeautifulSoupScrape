@@ -32,7 +32,7 @@ PCnumber = sliceString(businessUnit,' ',' ')
 print(PCnumber)
 
 #should grab count of the table, including total ROWS
-lastID = soup.tfoot.find('tr')['id']
+lastID = table.tfoot.find('tr')['id']
 
 #grabs count of the table without total rows
 dataCount = table.findAll(True, {'class':['RowStyleData', 'RowStyleDataEven']})
@@ -45,12 +45,21 @@ for index in range(len(elements)):
     template[elements[index].text.strip()] = 'empty'
 
 for count in range(len(dataCount)):
-    dataCell = template
+    dataCell = dict()
+    for index in range(len(elements)):
+        try:
+            print(dataCount[count].select('.CellStyle')[index]['dval'])
+        except:
+            print(dataCount[count].select('.CellStyle')[index].text.strip())
     data.append(dataCell)
+
 
 print(len(dataCount))
 print(dataCell)
-print(data[0]['Item'])
-
+try:
+    dataCount[0].select('.CellStyle')[0]['dval']
+except:
+    print(dataCount[0].select('.CellStyle')[0].text.strip())
+#print(dataCount[0].select('.CellStyle')[0].next_sibling.next_sibling['dval'])
 
 f.close()
