@@ -30,15 +30,10 @@ table = soup.find(class_='TableStyle')
 #grabs business unit and then PC#
 businessUnit = sliceString(mainHeaderText,'Business Unit','-')
 PCnumber = sliceString(businessUnit,' ',' ')
-print(PCnumber)
 
 #grabs date
 businessDate = sliceString(mainHeaderText,'Date','End')
 date = sliceString(businessDate,' ')
-print(date)
-
-#should grab count of the table, including total ROWS
-lastID = table.tfoot.find('tr')['id']
 
 #grabs count of the table without total rows
 dataRows = table.findAll(True, {'class':['RowStyleData', 'RowStyleDataEven']})
@@ -50,12 +45,15 @@ columns = rowHead.select('.CellStyle')
 #main data
 for count in range(len(dataRows)):
     dataCell = dict()
+    dataCell['PC Number'] = PCnumber
+    dataCell['Date'] = date
     for index in range(len(columns)):
         try:
             dataCell[columns[index].text.strip()] = dataRows[count].select('.CellStyle')[index]['dval']
-        except:
+        except: #if there is no value, then the data cell has to represent the item name
             dataCell[columns[index].text.strip()] = dataRows[count].select('.CellStyle')[index].text.strip()
     data.append(dataCell)
+
 
 #These are some checks to have (there are a lot to check, but these are the crucial ones):
 
@@ -66,8 +64,10 @@ for count in range(len(dataRows)):
 #print(len(dataRows))
 #print(len(data))
 #end
+f.close()
 
 #proper sibling navigation:
 #dataRows[0].select('.CellStyle')[0].next_sibling.next_sibling['dval']
 
-f.close()
+#should grab count of the table, including total ROWS
+#lastID = table.tfoot.find('tr')['id']
