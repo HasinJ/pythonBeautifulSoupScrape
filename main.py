@@ -61,7 +61,7 @@ if path.exists('export_dataframe.csv'):
     df = pd.read_json(open('testOutput.json','r'))
     #df.set_index('PC Number', inplace=True) takes its own row
     #print(df)
-    df.to_csv(r'C:\Users\Hasin Choudhury\Desktop\pythonWebscrapeRadiant\export_dataframe.csv', index=False,header=True)
+    df.to_csv(r'.\export_dataframe.csv', index=False,header=True)
 
 
 #These are some checks to have (there are a lot to check, but these are the crucial ones):
