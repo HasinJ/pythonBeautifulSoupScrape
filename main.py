@@ -37,7 +37,7 @@ lastID = table.tfoot.find('tr')['id']
 #grabs count of the table without total rows
 dataCount = table.findAll(True, {'class':['RowStyleData', 'RowStyleDataEven']})
 
-#find first header row
+#find first header row/column names
 rows = table.find(class_="RowStyleHead")
 elements = rows.select('.CellStyle')
 
@@ -48,18 +48,22 @@ for count in range(len(dataCount)):
     dataCell = dict()
     for index in range(len(elements)):
         try:
-            print(dataCount[count].select('.CellStyle')[index]['dval'])
+            dataCell[elements[index].text.strip()]=dataCount[count].select('.CellStyle')[index]['dval']
         except:
-            print(dataCount[count].select('.CellStyle')[index].text.strip())
+            dataCell[elements[index].text.strip()]=dataCount[count].select('.CellStyle')[index].text.strip()
     data.append(dataCell)
 
+#These are some checks to have (there are a lot to check, but these are the crucial ones):
 
-print(len(dataCount))
-print(dataCell)
-try:
-    dataCount[0].select('.CellStyle')[0]['dval']
-except:
-    print(dataCount[0].select('.CellStyle')[0].text.strip())
+#this one should show the last row:
+#print(dataCell)
+
+#these should match:
+#print(len(dataCount))
+#print(len(data))
+#end
+
+#proper sibling navigation:
 #print(dataCount[0].select('.CellStyle')[0].next_sibling.next_sibling['dval'])
 
 f.close()
