@@ -7,7 +7,6 @@ def sliceString(string,beginStr,endStr='nothing'):
     output = string[startIndex:stopIndex]
     return output
 
-import requests
 import json
 import pandas as pd
 import os.path
@@ -57,8 +56,8 @@ f.close()
 #cleaning date string of slashes
 date = date.replace('/','.')
 
-#checks for testOutput.json existence
-if path.exists(dir + fr'\{date}Output.json')==False:
+#checks for .json existence
+if path.exists(dir + fr'\{date}Output.json')==False: #f-string to differentiate files, r-string to change the use of backslashes (for absolute path)
     with open(dir + fr'\{date}Output.json','w') as f:
         json.dump(data,f)
 

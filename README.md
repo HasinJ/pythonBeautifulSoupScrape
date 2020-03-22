@@ -24,3 +24,4 @@ HTML analysis:
 
 Notes:
 - date and PC number needs to be associated with each row (data frame-wise)
+- not using object oriented/more than a couple of functions
