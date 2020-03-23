@@ -74,13 +74,13 @@ if path.exists(dir + fr'\{date}dataframe.csv')==False:
 #print(dataCell)
 
 #these should match:
-#print(len(dataRows))
-#print(len(data))
+#print(len(dataRows)) #what is in the HTML DOM
+#print(len(data)) #what the script makes
 #end
 
 
 #proper sibling navigation:
-#dataRows[0].select('.CellStyle')[0].next_sibling.next_sibling['dval']
+#dataRows[index].select('.CellStyle')[0].next_sibling.next_sibling['dval'] #twice because of whitespace
 
-#should grab count of the table, including total ROWS
+#should grab count of the table, including 'total' ROWS (the rows labeled as 'total')
 #lastID = table.tfoot.find('tr')['id']
