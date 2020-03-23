@@ -25,3 +25,4 @@ HTML analysis:
 Notes:
 - date and PC number needs to be associated with each row (data frame-wise)
 - not using object oriented/more than a couple of functions
+- delete .json and .csv file to check if script works
