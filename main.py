@@ -37,6 +37,8 @@ mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Report Time')
 
 data = []
 columnNames = []
+insert = 'INSERT INTO testcsv (PC Number,Date,'
+values = ' VALUES (%s,%s,'
 sql = ''
 
 #grabs first table since there are two tables and CSS
@@ -59,6 +61,15 @@ rowHead = table.find(class_="RowStyleHead")
 HTMLcolumns = rowHead.select('.CellStyle')
 for index in range(len(HTMLcolumns)):
     columnNames.insert(index, HTMLcolumns[index].text.strip())
+    #sql also needs column names
+    if index != (len(HTMLcolumns)-1): #if the index isn't the last column name, add a comma
+        insert = insert + '`' + columnNames[index] + '`' + ','
+        values = values + '%s,'
+    elif index == (len(HTMLcolumns)-1): #if the index is the last column name, add a parenthesis
+        insert = insert + '`' + columnNames[index] + '`' + ')'
+        values = values + '%s)'
+sql = insert + values
+print(sql)
 
 #main data
 for count in range(len(dataRows)):
