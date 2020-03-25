@@ -68,8 +68,10 @@ for index in range(len(HTMLcolumns)):
     elif index == (len(HTMLcolumns)-1): #if the index is the last column name, add a parenthesis
         insert = insert + '`' + columnNames[index] + '`' + ')'
         values = values + '%s)'
+
+#cleaning sql of '%' in the INSERT INTO sequence, otherwise SQL query fails
+insert = insert.replace('%', 'Percent')
 sql = insert + values
-print(sql)
 
 #main data
 for count in range(len(dataRows)):
@@ -104,14 +106,12 @@ if path.exists(dir + fr'\{date}dataframe.csv')==False:
     df.to_csv(dir + fr'\{date}dataframe.csv', index=False, header=True)
 
 csv_data = csv.reader(open(dir + fr'\{date}dataframe.csv'))
-next(csv_data)
+next(csv_data) #to ignore header
 for row in csv_data:
-   cursor.execute("INSERT INTO hasindatabase.testcsv (`PC Number`,`Date`,`Item`,`Price`,`Items Sold`,`Sold Amount`,`Percent Sales`,`Item Reductions`,`Item Refunds`,`Item Net Sales`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", row)
+   cursor.execute(sql, row)
 
-#cursor.execute("INSERT INTO hasindatabase.testcsv (`PC Number`,`Date`,`Item`,`Price`,`Items Sold`,`Sold Amount`,`Percent Sales`,`Item Reductions`,`Item Refunds`,`Item Net Sales`) VALUES ('347884', '2020-03-18', 'Bagel w/CC, Item Only', '2.49', '16', '39.84', '2.76', '2.94', '0.0', '36.9')")
 mydb.commit()
 cursor.close()
-print("Done")
 
 #These are some checks to have (there are a lot to check, but these are the crucial ones):
 
@@ -123,6 +123,9 @@ print("Done")
 #print(len(data)) #what the script makes
 #end
 
+#sql for one row and for the for loop, respectively
+#cursor.execute("INSERT INTO hasindatabase.testcsv (`PC Number`,`Date`,`Item`,`Price`,`Items Sold`,`Sold Amount`,`Percent Sales`,`Item Reductions`,`Item Refunds`,`Item Net Sales`) VALUES ('347884', '2020-03-18', 'Bagel w/CC, Item Only', '2.49', '16', '39.84', '2.76', '2.94', '0.0', '36.9')")
+#cursor.execute("INSERT INTO hasindatabase.testcsv (`PC Number`,`Date`,`Item`,`Price`,`Items Sold`,`Sold Amount`,`Percent Sales`,`Item Reductions`,`Item Refunds`,`Item Net Sales`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", row)
 
 #proper sibling navigation:
 #dataRows[index].select('.CellStyle')[0].next_sibling.next_sibling['dval'] #twice because of whitespace
