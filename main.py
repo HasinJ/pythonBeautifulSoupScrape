@@ -37,7 +37,7 @@ mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Report Time')
 
 data = []
 columnNames = []
-insert = 'INSERT INTO testcsv (PC Number,Date,'
+insert = 'INSERT INTO testcsv (`PC Number`,`Date`,'
 values = ' VALUES (%s,%s,'
 sql = ''
 
@@ -104,10 +104,11 @@ if path.exists(dir + fr'\{date}dataframe.csv')==False:
     df.to_csv(dir + fr'\{date}dataframe.csv', index=False, header=True)
 
 csv_data = csv.reader(open(dir + fr'\{date}dataframe.csv'))
+next(csv_data)
 for row in csv_data:
-   cursor.execute("INSERT INTO testcsv (PC Number,Date,Item,Price,Items Sold,Sold Amount,Percent Sales,Item Reductions,Item Refunds,Item Net Sales) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", row)
+   cursor.execute("INSERT INTO hasindatabase.testcsv (`PC Number`,`Date`,`Item`,`Price`,`Items Sold`,`Sold Amount`,`Percent Sales`,`Item Reductions`,`Item Refunds`,`Item Net Sales`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", row)
 
-#cursor.execute("INSERT INTO hasindatabase.testcsv (PC Number,Date,Item,Price,Items Sold,Sold Amount,Percent Sales,Item Reductions,Item Refunds,Item Net Sales) VALUES ('347884', '2020-03-18', 'Bagel w/CC, Item Only', '2.49', '16', '39.84', '2.76', '2.94', '0.0', '36.9')")
+#cursor.execute("INSERT INTO hasindatabase.testcsv (`PC Number`,`Date`,`Item`,`Price`,`Items Sold`,`Sold Amount`,`Percent Sales`,`Item Reductions`,`Item Refunds`,`Item Net Sales`) VALUES ('347884', '2020-03-18', 'Bagel w/CC, Item Only', '2.49', '16', '39.84', '2.76', '2.94', '0.0', '36.9')")
 mydb.commit()
 cursor.close()
 print("Done")
