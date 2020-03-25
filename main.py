@@ -37,7 +37,8 @@ mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Report Time')
 
 data = []
 columnNames = []
-insert = 'INSERT INTO testcsv (`PC Number`,`Date`,'
+dbTable = 'testcsv'
+insert = f'INSERT INTO {dbTable} (`PC Number`,`Date`,'
 values = ' VALUES (%s,%s,'
 sql = ''
 
