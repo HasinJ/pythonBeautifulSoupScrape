@@ -9,8 +9,16 @@ def sliceString(string,beginStr,endStr='nothing'):#default parameter, as used to
 import json
 import pandas as pd
 import os.path
+import csv
+import MySQLdb
 from os import path
 from bs4 import BeautifulSoup
+
+mydb = MySQLdb.connect(host='localhost',
+    user='root',
+    passwd='usbw',
+    db='test')
+cursor = mydb.cursor()
 
 #looking at the "output" file on github shows what's being parsed
 #the output file contains the HTML DOM of what we're trying to extract from
@@ -25,10 +33,11 @@ dir = fr'C:\Users\Hasin Choudhury\Desktop\pythonBeautifulSoupScrape'
 f = open(dir + r'\Report.xls','rb') # 'rb' stands for read-binary, write-binary needs chmoding, this is necessary for the content to be readable by BeautifulSoup
 content = f.read()
 soup = BeautifulSoup(content,'html.parser')
-mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Report Time')[0] #here I grab the main text from the div container with id ='MainReportDiv', split it from 'Report Time', and then select the left portion of the split (0)
+mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Report Time')[0]
 
 data = []
 columnNames = []
+sql = ''
 
 #grabs first table since there are two tables and CSS
 table = soup.find(class_='TableStyle') #again look at the 'output' file, the file contains more than just 1 table, and even includes the CSS, which is what we dont want, we just want the first table
@@ -82,6 +91,12 @@ if path.exists(dir + fr'\{date}dataframe.csv')==False:
     #df.set_index('PC Number', inplace=True) takes its own row
     #print(df)
     df.to_csv(dir + fr'\{date}dataframe.csv', index=False, header=True)
+
+csv_data = csv.reader(open(dir + fr'\{date}dataframe.csv'))
+
+mydb.commit()
+cursor.close()
+print("Done")
 
 #These are some checks to have (there are a lot to check, but these are the crucial ones):
 
