@@ -1,9 +1,9 @@
 
-def sliceString(string,beginStr,endStr='nothing'):
+def sliceString(string,beginStr,endStr='nothing'):#default parameter, as used to find date
     startIndex = string.find(beginStr)+len(beginStr) #doesnt include beginStr
-    if endStr=='nothing':
+    if endStr=='nothing': #if there is no parameter for endStr
         return string[startIndex:]
-    stopIndex = string.find(endStr,startIndex) #so it doesn't take beginStr into consideration
+    stopIndex = string.find(endStr,startIndex) #so it doesn't take beginStr into consideration, it solves the problem with having beginStr and endStr being the same string (like when finding PCnumber)
     output = string[startIndex:stopIndex]
     return output
 
@@ -13,20 +13,29 @@ import os.path
 from os import path
 from bs4 import BeautifulSoup
 
+#looking at the "output" file on github shows what's being parsed
+#the output file contains the HTML DOM of what we're trying to extract from
+# HTML DOM is made up of HTML/CSS to begin with, some javascript to add afterwards, and then javscript EVENTS to add whenever a user prompts for it
+
+#text - grabs TEXT
+#strip() - is a method, it strips the string (in this case the .text) from what's called 'whitespace' in webdev (you can inspect any page and see where whitespace is in a HTML DOM)
+
+
 dir = fr'C:\Users\Hasin Choudhury\Desktop\pythonBeautifulSoupScrape'
 
-f = open(dir + r'\Report.xls','rb') #read-binary, write-binary needs chmoding
+f = open(dir + r'\Report.xls','rb') # 'rb' stands for read-binary, write-binary needs chmoding, this is necessary for the content to be readable by BeautifulSoup
 content = f.read()
 soup = BeautifulSoup(content,'html.parser')
-mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Report Time')[0]
+mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Report Time')[0] #here I grab the main text from the div container with id ='MainReportDiv', split it from 'Report Time', and then select the left portion of the split (0)
 
 data = []
 
 #grabs first table since there are two tables and CSS
-table = soup.find(class_='TableStyle')
+table = soup.find(class_='TableStyle') #again look at the 'output' file, the file contains more than just 1 table, and even includes the CSS, which is what we dont want, we just want the first table
 
 #grabs business unit and then PC#
 businessUnit = sliceString(mainHeaderText,'Business Unit','-')
+#sliceString is my own function, so it doesn't repeat, it basically takes a portion of the string, by locating a portion of the string, 'Business Unit' and '-', and using them as a starting point and ending point respectively.
 PCnumber = sliceString(businessUnit,' ',' ')
 
 #grabs date
