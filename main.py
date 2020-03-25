@@ -10,6 +10,8 @@ def sliceString(string,beginStr,endStr='nothing'):#default parameter, as used to
 import json
 import pandas as pd
 import os.path
+import csv
+import MySQLdb
 from os import path
 from bs4 import BeautifulSoup
 
@@ -20,6 +22,11 @@ from bs4 import BeautifulSoup
 #text - grabs TEXT
 #strip() - is a method, it strips the string (in this case the .text) from what's called 'whitespace' in webdev (you can inspect any page and see where whitespace is in a HTML DOM)
 
+mydb = MySQLdb.connect(host='hasindatabase.c0v7lriogf7u.us-east-2.rds.amazonaws.com',
+    user='admin',
+    passwd='hasinmc11',
+    db='hasindatabase')
+cursor = mydb.cursor()
 
 dir = fr'C:\Users\Hasin Choudhury\Desktop\pythonBeautifulSoupScrape'
 
@@ -76,6 +83,11 @@ if path.exists(dir + fr'\{date}dataframe.csv')==False:
     #df.set_index('PC Number', inplace=True) takes its own row
     #print(df)
     df.to_csv(dir + fr'\{date}dataframe.csv', index=False, header=True)
+
+csv_data = csv.reader(open(dir + fr'\{date}dataframe.csv'))
+next(csv_data)
+for row in csv_data:
+    cursor.execute('INSERT INTO testcsv ()')
 
 #These are some checks to have (there are a lot to check, but these are the crucial ones):
 
