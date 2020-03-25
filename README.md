@@ -22,6 +22,9 @@ HTML analysis:
 - 'break' breaks down with no values, but 'breaktotal' breaks the opposite way AND has values
 - grabbing last child from 'tbody' shows us the amount of loops to go through
 
+Python MySQLdb download:
+https://stackoverflow.com/questions/51062920/pip-install-mysqlclient-error/58931018#58931018
+
 Notes:
 - date and PC number needs to be associated with each row (data frame-wise)
 - not using object oriented/more than a couple of functions
