@@ -29,7 +29,6 @@ soup = BeautifulSoup(content,'html.parser')
 mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Report Time')[0] #here I grab the main text from the div container with id ='MainReportDiv', split it from 'Report Time', and then select the left portion of the split (0)
 
 data = []
-columnNames = []
 
 #grabs first table since there are two tables and CSS
 table = soup.find(class_='TableStyle') #again look at the 'output' file, the file contains more than just 1 table, and even includes the CSS, which is what we dont want, we just want the first table
@@ -48,25 +47,19 @@ dataRows = table.findAll(True, {'class':['RowStyleData', 'RowStyleDataEven']})
 
 #find (first) header row
 rowHead = table.find(class_="RowStyleHead")
-HTMLcolumns = rowHead.select('.CellStyle')
-for index in range(len(HTMLcolumns)):
-    columnNames.insert(index, HTMLcolumns[index].text.strip())
+columns = rowHead.select('.CellStyle')
 
 #main data
 for count in range(len(dataRows)):
     dataCell = dict()
     dataCell['PC Number'] = PCnumber
     dataCell['Date'] = date
-    for index in range(len(HTMLcolumns)):
+    for index in range(len(columns)):
         try:
-            dataCell[columnNames[index]] = dataRows[count].select('.CellStyle')[index]['dval']
+            dataCell[columns[index].text.strip()] = dataRows[count].select('.CellStyle')[index]['dval']
         except: #if there is no value, then the data cell has to represent the item name
-            dataCell[columnNames[index]] = dataRows[count].select('.CellStyle')[index].text.strip()
+            dataCell[columns[index].text.strip()] = dataRows[count].select('.CellStyle')[index].text.strip()
     data.append(dataCell)
-
-columnNames.insert(0,'Date')
-columnNames.insert(0,'PC Number')
-
 f.close()
 
 #cleaning date string of slashes
