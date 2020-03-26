@@ -110,7 +110,7 @@ if path.exists(dir + fr'\{date}dataframe.csv')==False:
 csv_data = csv.reader(open(dir + fr'\{date}dataframe.csv'))
 next(csv_data) #to ignore header
 #for row in csv_data:
- #  cursor.execute(sql, row)
+   #cursor.execute(sql, row)
 
 mydb.commit()
 cursor.close()
