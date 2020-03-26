@@ -109,8 +109,8 @@ if path.exists(dir + fr'\{date}dataframe.csv')==False:
 
 csv_data = csv.reader(open(dir + fr'\{date}dataframe.csv'))
 next(csv_data) #to ignore header
-#for row in csv_data:
-   #cursor.execute(sql, row)
+for row in csv_data:
+   cursor.execute(sql, row) #if the script runs more than one time, the data will be duplicated, needs to check whether or not data exists for the date
 
 mydb.commit()
 cursor.close()
