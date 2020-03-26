@@ -14,6 +14,7 @@ output - html example of xls file and webpage
 
 {date}Output.json - outputs the data list
 
+RDSconfig.py - should make its own __pycache__ when DB connects properly, has DB credentials
 
 HTML analysis:
 - differentiated with CSS
