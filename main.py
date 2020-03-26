@@ -30,7 +30,7 @@ cursor = mydb.cursor()
 
 dir = fr'C:\Users\Hasin Choudhury\Desktop\pythonBeautifulSoupScrape'
 
-f = open(dir + r'\Report.xls','rb') # 'rb' stands for read-binary, write-binary needs chmoding, this is necessary for the content to be readable by BeautifulSoup
+f = open(dir + r'\master report\Report.xls','rb') # 'rb' stands for read-binary, write-binary needs chmoding, this is necessary for the content to be readable by BeautifulSoup
 content = f.read()
 soup = BeautifulSoup(content,'html.parser')
 mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Time')[0]
