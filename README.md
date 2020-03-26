@@ -8,7 +8,7 @@ Files:
 
 Report.xls - xls file with data to parse
 
-courseProj.py - allsides.com example
+courseProj.py - allsides.com example - SERVES AS THE BEST EXPLANATION TO MOST THE FUNDAMENTALS IN MAIN.PY
 
 output - html example of xls file and webpage
 
