@@ -33,11 +33,11 @@ dir = fr'C:\Users\Hasin Choudhury\Desktop\pythonBeautifulSoupScrape'
 f = open(dir + r'\Report.xls','rb') # 'rb' stands for read-binary, write-binary needs chmoding, this is necessary for the content to be readable by BeautifulSoup
 content = f.read()
 soup = BeautifulSoup(content,'html.parser')
-mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Report Time')[0]
+mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Time')[0]
 
 data = []
 columnNames = []
-dbTable = 'testcsv'
+dbTable = 'TempTable'
 insert = f'INSERT INTO {dbTable} (`PC Number`,`Date`,'
 values = ' VALUES (%s,%s,'
 sql = ''
@@ -51,8 +51,9 @@ businessUnit = sliceString(mainHeaderText,'Business Unit','-')
 PCnumber = sliceString(businessUnit,' ',' ')
 
 #grabs date
-businessDate = sliceString(mainHeaderText,'Date','End')
-date = sliceString(businessDate,' ')
+businessDate = sliceString(mainHeaderText,'Date','Report')
+endDate = sliceString(businessDate,'Date')
+date = sliceString(endDate,' ')
 
 #grabs count of the table without total rows
 dataRows = table.findAll(True, {'class':['RowStyleData', 'RowStyleDataEven']})
@@ -108,8 +109,8 @@ if path.exists(dir + fr'\{date}dataframe.csv')==False:
 
 csv_data = csv.reader(open(dir + fr'\{date}dataframe.csv'))
 next(csv_data) #to ignore header
-for row in csv_data:
-   cursor.execute(sql, row)
+#for row in csv_data:
+ #  cursor.execute(sql, row)
 
 mydb.commit()
 cursor.close()
