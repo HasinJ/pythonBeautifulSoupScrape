@@ -30,3 +30,4 @@ Notes:
 - date and PC number needs to be associated with each row (data frame-wise)
 - not using object oriented/more than a couple of functions
 - delete .json and .csv file to check if script works
+- anything and everything is either on w3schools and the BeautifulSoup doc
