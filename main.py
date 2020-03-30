@@ -30,7 +30,7 @@ mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Time')[0]
 
 data = []
 columnNames = []
-dbTable = 'TempTable'
+dbTable = 'TempTable' #dont add spaces
 insert = f'INSERT INTO {dbTable} (`PC Number`,`Date`,'
 values = ' VALUES (%s,%s,'
 sql = ''
