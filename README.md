@@ -31,3 +31,5 @@ Notes:
 - not using object oriented/more than a couple of functions
 - delete .json and .csv file to check if script works
 - anything and everything is either on w3schools and the BeautifulSoup doc
+- to test, maybe a "whitespace" checker
+- to test, maybe something with the fact that PC numbers are getting scraped once the HTML report is being recorded
