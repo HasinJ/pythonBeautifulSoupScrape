@@ -23,7 +23,7 @@ cursor = mydb.cursor()
 
 dir = fr'C:\Users\Hasin Choudhury\Desktop\pythonBeautifulSoupScrape'
 
-f = open(dir + r'\master report\Report.xls','rb') # 'rb' stands for read-binary, write-binary needs chmoding, this is necessary for the content to be readable by BeautifulSoup
+f = open(dir + r'\master report\Report.xls','rb') # 'rb' stands for read-binary, write-binary needs chmoding, this also needs to be changed for Selenium (needs to have date)
 content = f.read()
 soup = BeautifulSoup(content,'html.parser')
 mainHeaderText = soup.find(id='MainReportDiv').text.strip().split('Time')[0]
@@ -34,6 +34,8 @@ dbTable = 'TempTable' #dont add spaces
 insert = f'INSERT INTO {dbTable} (`PC Number`,`Date`,'
 values = ' VALUES (%s,%s,'
 sql = ''
+date = ''
+PCnumber = ''
 
 #grabs first table since there are two tables and CSS
 table = soup.find(class_='TableStyle')
@@ -46,6 +48,10 @@ PCnumber = sliceString(businessUnit,' ',' ')
 businessDate = sliceString(mainHeaderText,'Date','Report')
 endDate = sliceString(businessDate,'Date')
 date = sliceString(endDate,' ')
+
+#strips of whitespaces AGAIN just incase
+date = date.strip()
+PCnumber = PCnumber.strip()
 
 #grabs count of the table without total rows
 dataRows = table.findAll(True, {'class':['RowStyleData', 'RowStyleDataEven']})
@@ -62,6 +68,7 @@ for index in range(len(HTMLcolumns)):
     elif index == (len(HTMLcolumns)-1): #if the index is the last column name, add a parenthesis
         insert = insert + '`' + columnNames[index] + '`' + ')'
         values = values + '%s)'
+
 
 #cleaning sql of '%' in the INSERT INTO sequence, otherwise SQL query fails
 insert = insert.replace('%', 'Percent')
@@ -81,7 +88,7 @@ for count in range(len(dataRows)):
 
 columnNames.insert(0,'Date')
 columnNames.insert(0,'PC Number')
-
+print(date, data)
 f.close()
 
 #cleaning date string of slashes
@@ -106,6 +113,8 @@ next(csv_data) #to ignore header
 
 mydb.commit()
 cursor.close()
+
+
 
 #These are some checks to have (there are a lot to check, but these are the crucial ones):
 
